@@ -10,6 +10,24 @@
 		682A032F2C80AC1300044B73 /* ValifySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 682A03262C80AC1300044B73 /* ValifySDK.framework */; };
 		682A03342C80AC1300044B73 /* ValifySDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 682A03332C80AC1300044B73 /* ValifySDKTests.swift */; };
 		682A03352C80AC1300044B73 /* ValifySDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 682A03292C80AC1300044B73 /* ValifySDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		682A03452C80AC5800044B73 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 682A03442C80AC5800044B73 /* AppDelegate.swift */; };
+		682A03472C80AC5800044B73 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 682A03462C80AC5800044B73 /* SceneDelegate.swift */; };
+		682A034E2C80AC5900044B73 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 682A034D2C80AC5900044B73 /* Assets.xcassets */; };
+		682A03512C80AC5900044B73 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 682A03502C80AC5900044B73 /* Base */; };
+		682A03572C80ACE500044B73 /* ValifySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 682A03262C80AC1300044B73 /* ValifySDK.framework */; };
+		682A03582C80ACE500044B73 /* ValifySDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 682A03262C80AC1300044B73 /* ValifySDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		682A035D2C80AD8C00044B73 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 682A035C2C80AD8C00044B73 /* Home.swift */; };
+		68971D882C80B42100ABE622 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68971D862C80B42100ABE622 /* HomeViewController.swift */; };
+		68971D892C80B42100ABE622 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68971D872C80B42100ABE622 /* HomeViewController.xib */; };
+		68971D8C2C80B49400ABE622 /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68971D8B2C80B49400ABE622 /* CameraViewController.xib */; };
+		68971D8D2C80B49400ABE622 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68971D8A2C80B49400ABE622 /* CameraViewController.swift */; };
+		68971D902C81EBA300ABE622 /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68971D8F2C81EBA300ABE622 /* CameraViewModel.swift */; };
+		68971D922C81ED2900ABE622 /* CameraErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68971D912C81ED2900ABE622 /* CameraErrorHandler.swift */; };
+		68971D952C81F5E100ABE622 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68971D942C81F5E100ABE622 /* BaseViewController.swift */; };
+		68BE1C562C81FB0C00810851 /* PreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68BE1C552C81FB0C00810851 /* PreviewViewController.xib */; };
+		68BE1C572C81FB0C00810851 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BE1C542C81FB0C00810851 /* PreviewViewController.swift */; };
+		68BE1C5A2C81FB5C00810851 /* PreviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BE1C592C81FB5C00810851 /* PreviewViewModel.swift */; };
+		68BE1C5C2C82158E00810851 /* CameraHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BE1C5B2C82158E00810851 /* CameraHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -20,13 +38,52 @@
 			remoteGlobalIDString = 682A03252C80AC1300044B73;
 			remoteInfo = ValifySDK;
 		};
+		682A03592C80ACE500044B73 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 682A031D2C80AC1300044B73 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 682A03252C80AC1300044B73;
+			remoteInfo = ValifySDK;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		682A035B2C80ACE500044B73 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				682A03582C80ACE500044B73 /* ValifySDK.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		682A03262C80AC1300044B73 /* ValifySDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ValifySDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		682A03292C80AC1300044B73 /* ValifySDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ValifySDK.h; sourceTree = "<group>"; };
 		682A032E2C80AC1300044B73 /* ValifySDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ValifySDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		682A03332C80AC1300044B73 /* ValifySDKTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValifySDKTests.swift; sourceTree = "<group>"; };
+		682A03422C80AC5800044B73 /* ValifySDKApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ValifySDKApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		682A03442C80AC5800044B73 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		682A03462C80AC5800044B73 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		682A034D2C80AC5900044B73 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		682A03502C80AC5900044B73 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		682A03522C80AC5900044B73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		682A035C2C80AD8C00044B73 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		68971D862C80B42100ABE622 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		68971D872C80B42100ABE622 /* HomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
+		68971D8A2C80B49400ABE622 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		68971D8B2C80B49400ABE622 /* CameraViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CameraViewController.xib; sourceTree = "<group>"; };
+		68971D8F2C81EBA300ABE622 /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
+		68971D912C81ED2900ABE622 /* CameraErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraErrorHandler.swift; sourceTree = "<group>"; };
+		68971D942C81F5E100ABE622 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		68BE1C542C81FB0C00810851 /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
+		68BE1C552C81FB0C00810851 /* PreviewViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PreviewViewController.xib; sourceTree = "<group>"; };
+		68BE1C592C81FB5C00810851 /* PreviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewModel.swift; sourceTree = "<group>"; };
+		68BE1C5B2C82158E00810851 /* CameraHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +102,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		682A033F2C80AC5800044B73 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				682A03572C80ACE500044B73 /* ValifySDK.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -53,7 +118,9 @@
 			children = (
 				682A03282C80AC1300044B73 /* ValifySDK */,
 				682A03322C80AC1300044B73 /* ValifySDKTests */,
+				682A03432C80AC5800044B73 /* ValifySDKApp */,
 				682A03272C80AC1300044B73 /* Products */,
+				682A03562C80ACE500044B73 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -62,6 +129,7 @@
 			children = (
 				682A03262C80AC1300044B73 /* ValifySDK.framework */,
 				682A032E2C80AC1300044B73 /* ValifySDKTests.xctest */,
+				682A03422C80AC5800044B73 /* ValifySDKApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -70,6 +138,10 @@
 			isa = PBXGroup;
 			children = (
 				682A03292C80AC1300044B73 /* ValifySDK.h */,
+				68971D962C81F6D400ABE622 /* Base */,
+				68971D932C81ED2D00ABE622 /* ErrorHandler */,
+				68971D8E2C81EB1D00ABE622 /* Camera */,
+				68BE1C582C81FB1400810851 /* Preview */,
 			);
 			path = ValifySDK;
 			sourceTree = "<group>";
@@ -78,8 +150,67 @@
 			isa = PBXGroup;
 			children = (
 				682A03332C80AC1300044B73 /* ValifySDKTests.swift */,
+				682A035C2C80AD8C00044B73 /* Home.swift */,
 			);
 			path = ValifySDKTests;
+			sourceTree = "<group>";
+		};
+		682A03432C80AC5800044B73 /* ValifySDKApp */ = {
+			isa = PBXGroup;
+			children = (
+				682A03442C80AC5800044B73 /* AppDelegate.swift */,
+				68971D862C80B42100ABE622 /* HomeViewController.swift */,
+				68971D872C80B42100ABE622 /* HomeViewController.xib */,
+				682A03462C80AC5800044B73 /* SceneDelegate.swift */,
+				682A034D2C80AC5900044B73 /* Assets.xcassets */,
+				682A034F2C80AC5900044B73 /* LaunchScreen.storyboard */,
+				682A03522C80AC5900044B73 /* Info.plist */,
+			);
+			path = ValifySDKApp;
+			sourceTree = "<group>";
+		};
+		682A03562C80ACE500044B73 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		68971D8E2C81EB1D00ABE622 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				68971D8A2C80B49400ABE622 /* CameraViewController.swift */,
+				68971D8F2C81EBA300ABE622 /* CameraViewModel.swift */,
+				68971D8B2C80B49400ABE622 /* CameraViewController.xib */,
+				68BE1C5B2C82158E00810851 /* CameraHandler.swift */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
+		68971D932C81ED2D00ABE622 /* ErrorHandler */ = {
+			isa = PBXGroup;
+			children = (
+				68971D912C81ED2900ABE622 /* CameraErrorHandler.swift */,
+			);
+			path = ErrorHandler;
+			sourceTree = "<group>";
+		};
+		68971D962C81F6D400ABE622 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				68971D942C81F5E100ABE622 /* BaseViewController.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		68BE1C582C81FB1400810851 /* Preview */ = {
+			isa = PBXGroup;
+			children = (
+				68BE1C542C81FB0C00810851 /* PreviewViewController.swift */,
+				68BE1C552C81FB0C00810851 /* PreviewViewController.xib */,
+				68BE1C592C81FB5C00810851 /* PreviewViewModel.swift */,
+			);
+			path = Preview;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -132,6 +263,25 @@
 			productReference = 682A032E2C80AC1300044B73 /* ValifySDKTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		682A03412C80AC5800044B73 /* ValifySDKApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 682A03532C80AC5900044B73 /* Build configuration list for PBXNativeTarget "ValifySDKApp" */;
+			buildPhases = (
+				682A033E2C80AC5800044B73 /* Sources */,
+				682A033F2C80AC5800044B73 /* Frameworks */,
+				682A03402C80AC5800044B73 /* Resources */,
+				682A035B2C80ACE500044B73 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				682A035A2C80ACE500044B73 /* PBXTargetDependency */,
+			);
+			name = ValifySDKApp;
+			productName = ValifySDKApp;
+			productReference = 682A03422C80AC5800044B73 /* ValifySDKApp.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -144,8 +294,12 @@
 				TargetAttributes = {
 					682A03252C80AC1300044B73 = {
 						CreatedOnToolsVersion = 15.3;
+						LastSwiftMigration = 1530;
 					};
 					682A032D2C80AC1300044B73 = {
+						CreatedOnToolsVersion = 15.3;
+					};
+					682A03412C80AC5800044B73 = {
 						CreatedOnToolsVersion = 15.3;
 					};
 				};
@@ -165,6 +319,7 @@
 			targets = (
 				682A03252C80AC1300044B73 /* ValifySDK */,
 				682A032D2C80AC1300044B73 /* ValifySDKTests */,
+				682A03412C80AC5800044B73 /* ValifySDKApp */,
 			);
 		};
 /* End PBXProject section */
@@ -174,6 +329,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68971D8C2C80B49400ABE622 /* CameraViewController.xib in Resources */,
+				68BE1C562C81FB0C00810851 /* PreviewViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,6 +341,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		682A03402C80AC5800044B73 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				682A034E2C80AC5900044B73 /* Assets.xcassets in Resources */,
+				682A03512C80AC5900044B73 /* Base in Resources */,
+				68971D892C80B42100ABE622 /* HomeViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -191,6 +358,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68971D952C81F5E100ABE622 /* BaseViewController.swift in Sources */,
+				68971D922C81ED2900ABE622 /* CameraErrorHandler.swift in Sources */,
+				68971D8D2C80B49400ABE622 /* CameraViewController.swift in Sources */,
+				682A035D2C80AD8C00044B73 /* Home.swift in Sources */,
+				68971D902C81EBA300ABE622 /* CameraViewModel.swift in Sources */,
+				68BE1C5C2C82158E00810851 /* CameraHandler.swift in Sources */,
+				68BE1C5A2C81FB5C00810851 /* PreviewViewModel.swift in Sources */,
+				68BE1C572C81FB0C00810851 /* PreviewViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,6 +377,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		682A033E2C80AC5800044B73 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				682A03452C80AC5800044B73 /* AppDelegate.swift in Sources */,
+				682A03472C80AC5800044B73 /* SceneDelegate.swift in Sources */,
+				68971D882C80B42100ABE622 /* HomeViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -210,7 +395,23 @@
 			target = 682A03252C80AC1300044B73 /* ValifySDK */;
 			targetProxy = 682A03302C80AC1300044B73 /* PBXContainerItemProxy */;
 		};
+		682A035A2C80ACE500044B73 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 682A03252C80AC1300044B73 /* ValifySDK */;
+			targetProxy = 682A03592C80ACE500044B73 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		682A034F2C80AC5900044B73 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				682A03502C80AC5900044B73 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		682A03362C80AC1300044B73 /* Debug */ = {
@@ -342,9 +543,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = MKQZD7EFMT;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -352,6 +556,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -360,11 +565,12 @@
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = com.peter.ValifySDK;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Wallet.ADCB.test;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -374,9 +580,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = MKQZD7EFMT;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -384,6 +593,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -392,7 +602,7 @@
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = com.peter.ValifySDK;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Wallet.ADCB.test;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -405,11 +615,14 @@
 		682A033C2C80AC1300044B73 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MKQZD7EFMT;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.peter.ValifySDKTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Wallet.ADCB.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -420,13 +633,82 @@
 		682A033D2C80AC1300044B73 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MKQZD7EFMT;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.peter.ValifySDKTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Wallet.ADCB.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		682A03542C80AC5900044B73 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 25YHMUQYM4;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ValifySDKApp/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nbe.PhoneCash.test;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PhoneCash-dev-prof";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		682A03552C80AC5900044B73 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 25YHMUQYM4;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ValifySDKApp/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nbe.PhoneCash.test;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PhoneCash-dev-prof";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -458,6 +740,15 @@
 			buildConfigurations = (
 				682A033C2C80AC1300044B73 /* Debug */,
 				682A033D2C80AC1300044B73 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		682A03532C80AC5900044B73 /* Build configuration list for PBXNativeTarget "ValifySDKApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				682A03542C80AC5900044B73 /* Debug */,
+				682A03552C80AC5900044B73 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -7,12 +7,14 @@
 
 import UIKit
 import AVFoundation
+import MLKitVision
+import MLKitFaceDetection
 
 public class CameraViewController: BaseViewController {
 
     @IBOutlet weak var captureButton: UIButton!
     private let viewModel: CameraViewModel
-
+    
     // MARK: - init
     public init(viewModel: CameraViewModel) {
         self.viewModel = viewModel
@@ -27,6 +29,13 @@ public class CameraViewController: BaseViewController {
         viewModel.setupCamera()
     }
     
+//    public override func viewWillAppear(_ animated: Bool) {
+//        
+//    }
+//    public override func viewWillDisappear(_ animated: Bool) {
+//        <#code#>
+//    }
+    
     private func setupViewModel() {
         // Handle errors from ViewModel
         viewModel.onError = { [weak self] error in
@@ -39,10 +48,15 @@ public class CameraViewController: BaseViewController {
             }
         }
         
+        viewModel.onFaceDetectionError = { [weak self] error in
+            self?.presentAlert(title: "Error", message: error.localizedDescription)
+        }
+        
 //         Handle photo capture
         viewModel.onPhotoCaptured = { [weak self] image in
             guard let self = self else { return }
             let previewVC = PreviewViewController(image: image)
+            previewVC.delegate = self.presentingViewController as? SDKDelegate
             self.present(previewVC, animated: true, completion: nil)
         }
     }
@@ -50,9 +64,11 @@ public class CameraViewController: BaseViewController {
     /// Configure the preview layer
     public override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        if let previewLayer = viewModel.videoPreviewLayer {
-            previewLayer.frame = view.bounds
-            view.layer.insertSublayer(previewLayer, at: 0)
+        DispatchQueue.main.async { [weak self] in
+            if let previewLayer = self?.viewModel.videoPreviewLayer {
+                previewLayer.frame = self?.view?.bounds ?? CGRect()
+                self?.view.layer.insertSublayer(previewLayer, at: 0)
+            }
         }
     }
 

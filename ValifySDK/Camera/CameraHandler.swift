@@ -7,15 +7,21 @@
 
 import AVFoundation
 import UIKit
+import MLKitFaceDetection
+import MLKitVision
 
 public class CameraHandler: NSObject {
     // MARK: - Properties
     private var captureSession: AVCaptureSession?
     private var photoOutput: AVCapturePhotoOutput?
+    private var videoDataOutput: AVCaptureVideoDataOutput?
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
+    private var faceDetector: FaceDetector?
+    private var isFaceDetected: Bool = false
 
     // Callbacks
     var onError: ((Error) -> Void)?
+    var onFaceDetectionError: ((Error) -> Void)?
     var onPhotoCaptured: ((UIImage) -> Void)?
 
     // MARK: - Camera Setup
@@ -50,6 +56,7 @@ public class CameraHandler: NSObject {
 
         setupFrontCamera(captureSession: captureSession)
         setupOutputPhoto(captureSession: captureSession)
+        setupVideoOutput(captureSession: captureSession) // Add video output setup
 
         captureSession.commitConfiguration()
         captureSession.startRunning()
@@ -88,7 +95,23 @@ public class CameraHandler: NSObject {
         videoPreviewLayer?.videoGravity = .resizeAspectFill
     }
 
+    private func setupVideoOutput(captureSession: AVCaptureSession) {
+        videoDataOutput = AVCaptureVideoDataOutput()
+        guard let videoDataOutput = videoDataOutput else { return }
+
+        videoDataOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "videoQueue"))
+        if captureSession.canAddOutput(videoDataOutput) {
+            captureSession.addOutput(videoDataOutput)
+        } else {
+            onError?(CameraError.cameraUnavailable)
+        }
+    }
+
     func capturePhoto() {
+        guard isFaceDetected else {
+            onFaceDetectionError?(CameraError.NoFaceDetected)
+            return
+        }
         let settings = AVCapturePhotoSettings()
         photoOutput?.capturePhoto(with: settings, delegate: self)
     }
@@ -106,6 +129,55 @@ public class CameraHandler: NSObject {
         let flippedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return flippedImage ?? image
+    }
+
+    func setupFaceDetection() {
+        let options = FaceDetectorOptions()
+        options.performanceMode = .fast
+        options.landmarkMode = .all
+        options.classificationMode = .none
+        faceDetector = FaceDetector.faceDetector(options: options)
+    }
+}
+
+// MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
+extension CameraHandler: AVCaptureVideoDataOutputSampleBufferDelegate {
+    public func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        let visionImage = VisionImage(buffer: sampleBuffer)
+        visionImage.orientation = .right // Adjust based on your camera orientation
+
+        faceDetector?.process(visionImage) { faces, error in
+            if let error = error {
+                print("Face detection error: \(error.localizedDescription)")
+                self.isFaceDetected = false
+                self.onFaceDetectionError?(error)
+                return
+            }
+
+            guard let faces = faces, !faces.isEmpty else {
+                print("No faces detected")
+                self.isFaceDetected = false
+                return
+            }
+            var allLandmarksVisible = false // Track if required landmarks are visible
+            for face in faces {
+                // Check if both eyes, the mouth, and the nose are detected
+                if face.landmark(ofType: .leftEye) != nil &&
+                    face.landmark(ofType: .rightEye) != nil &&
+                    face.landmark(ofType: .noseBase) != nil &&
+                    face.landmark(ofType: .mouthLeft) != nil &&
+                    face.landmark(ofType: .mouthBottom) != nil &&
+                    face.landmark(ofType: .mouthRight) != nil {
+                    print("All required facial landmarks detected!")
+                    allLandmarksVisible = true
+                    break // Exit loop if one face has all required landmarks
+                } else {
+                    print("Required landmarks not fully detected.")
+                }
+            }
+            // Update isFaceDetected status based on landmark visibility
+            self.isFaceDetected = allLandmarksVisible
+        }
     }
 }
 
@@ -126,4 +198,3 @@ extension CameraHandler: AVCapturePhotoCaptureDelegate {
         onPhotoCaptured?(correctedImage)
     }
 }
-

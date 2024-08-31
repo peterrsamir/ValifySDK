@@ -17,6 +17,11 @@ public class CameraViewModel {
             cameraHandler.onError = onError
         }
     }
+    var onFaceDetectionError: ((Error) -> Void)? {
+        didSet {
+            cameraHandler.onFaceDetectionError = onFaceDetectionError
+        }
+    }
     var onPhotoCaptured: ((UIImage) -> Void)? {
         didSet {
             cameraHandler.onPhotoCaptured = onPhotoCaptured
@@ -31,6 +36,9 @@ public class CameraViewModel {
         self.cameraHandler = cameraHandler
         cameraHandler.onError = onError
         cameraHandler.onPhotoCaptured = onPhotoCaptured
+        cameraHandler.onFaceDetectionError = onFaceDetectionError
+        cameraHandler.setupFaceDetection()
+        setupCamera()
     }
 
     func setupCamera() {

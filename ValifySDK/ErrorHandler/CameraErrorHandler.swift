@@ -11,6 +11,7 @@ enum CameraError: LocalizedError {
     case cameraUnavailable
     case captureFailed
     case unauthorizedAccess
+    case NoFaceDetected
     
     var errorDescription: String? {
         switch self {
@@ -20,6 +21,8 @@ enum CameraError: LocalizedError {
             return "Failed to capture the photo. Please try again."
         case .unauthorizedAccess:
             return "Camera access is denied. Please enable access in settings."
+        case .NoFaceDetected:
+            return "Please bring your face in front of the Camera"
         }
     }
 }

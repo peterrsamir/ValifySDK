@@ -8,11 +8,11 @@
 import UIKit
 import ValifySDK
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, SDKDelegate {
 
+    @IBOutlet weak var imageView: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
     }
 
@@ -22,5 +22,8 @@ class HomeViewController: UIViewController {
         self.present(vc, animated: true)
     }
     
+    func sdkDidFinish(with imageView: UIImageView) {
+        self.imageView.image = imageView.image
+    }
 
 }

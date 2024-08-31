@@ -51,13 +51,11 @@ public class CameraHandler: NSObject {
     private func configureCameraSession() {
         captureSession = AVCaptureSession()
         guard let captureSession = captureSession else { return }
-
+        
         captureSession.beginConfiguration()
-
         setupFrontCamera(captureSession: captureSession)
         setupOutputPhoto(captureSession: captureSession)
-        setupVideoOutput(captureSession: captureSession) // Add video output setup
-
+        setupVideoOutput(captureSession: captureSession)
         captureSession.commitConfiguration()
         captureSession.startRunning()
     }
@@ -86,11 +84,9 @@ public class CameraHandler: NSObject {
             onError?(CameraError.captureFailed)
             return
         }
-
         if captureSession.canAddOutput(photoOutput) {
             captureSession.addOutput(photoOutput)
         }
-
         videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         videoPreviewLayer?.videoGravity = .resizeAspectFill
     }

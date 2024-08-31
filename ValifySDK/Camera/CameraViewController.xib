@@ -11,7 +11,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CameraViewController" customModule="ValifySDK" customModuleProvider="target">
             <connections>
-                <outlet property="captureButton" destination="gs3-eq-zmc" id="ZNp-9k-jNZ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -20,28 +19,37 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gs3-eq-zmc">
-                    <rect key="frame" x="166.33333333333334" y="749.66666666666663" width="60.333333333333343" height="38.333333333333371"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="ylN-PR-CLx">
+                    <rect key="frame" x="106" y="724" width="180.66666666666663" height="47"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" systemColor="systemGrayColor"/>
+                    <color key="tintColor" systemColor="systemIndigoColor"/>
                     <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="filled" image="camera.fill" catalog="system" title=" "/>
+                    <buttonConfiguration key="configuration" style="filled" image="camera.shutter.button" catalog="system" title=" CAPTURE">
+                        <fontDescription key="titleFontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
+                        <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="baseBackgroundColor" systemColor="systemIndigoColor"/>
+                    </buttonConfiguration>
                     <connections>
-                        <action selector="capturePhoto:" destination="-1" eventType="touchUpInside" id="doj-85-DoU"/>
+                        <action selector="capturePhoto:" destination="-1" eventType="touchUpInside" id="D99-9Y-9JD"/>
                     </connections>
                 </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-            <constraints>
-                <constraint firstItem="gs3-eq-zmc" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="nog-El-zLj"/>
-                <constraint firstAttribute="bottom" secondItem="gs3-eq-zmc" secondAttribute="bottom" constant="64" id="w6L-bp-Wk7"/>
-            </constraints>
             <point key="canvasLocation" x="96.946564885496173" y="-12.67605633802817"/>
         </view>
     </objects>
     <resources>
-        <image name="camera.fill" catalog="system" width="128" height="93"/>
+        <image name="camera.shutter.button" catalog="system" width="128" height="108"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemIndigoColor">
+            <color red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -14,7 +14,7 @@ public class BaseViewController: UIViewController {
         title: String,
         message: String,
         actionTitle: String = "OK",
-        action2Title: String? = "Cancel",
+        action2Title: String? = nil,
         actionHandler: (() -> Void)? = nil,
         action2Handler: (() -> Void)? = nil
     ) {

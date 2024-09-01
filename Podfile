@@ -3,23 +3,24 @@
 
 target 'ValifySDK' do
   # Comment the next line if you don't want to use dynamic frameworks
-  use_frameworks!
+#  use_frameworks!
 
   # Pods for ValifySDK
+use_frameworks! :linkage => :static
 
-pod 'GoogleMLKit/FaceDetection', '3.2.0'
+#pod 'GoogleMLKit/FaceDetection', '3.2.0'
 
 
-  target 'ValifySDKTests' do
+#  target 'ValifySDKTests' do
     # Pods for testing
-  end
+  #end
 
 end
 
-target 'ValifySDKApp' do
+#target 'ValifySDKApp' do
   # Comment the next line if you don't want to use dynamic frameworks
-  use_frameworks!
+#  use_frameworks!
 
   # Pods for ValifySDKApp
 
-end
+#end

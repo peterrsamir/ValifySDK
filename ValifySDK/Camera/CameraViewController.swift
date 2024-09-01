@@ -42,7 +42,6 @@ public class CameraViewController: BaseViewController {
             guard let self = self else { return }
             self.presentAlert(title: "Error", message: error.localizedDescription, actionTitle: "OK", actionHandler:  { [weak self] in
                 self?.dismiss(animated: true)
-                self?.viewModel.navigateToSettings()
             }) { [weak self] in
                 self?.dismiss(animated: true)
             }

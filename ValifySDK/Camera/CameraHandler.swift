@@ -34,13 +34,7 @@ public class CameraHandler: NSObject {
         case .authorized:
             configureCameraSession()
         case .notDetermined:
-            AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
-                if granted {
-                    self?.configureCameraSession()
-                } else {
-                    self?.onError?(CameraError.unauthorizedAccess)
-                }
-            }
+            requestCameraAccess()
         case .denied, .restricted:
             onError?(CameraError.unauthorizedAccess)
         @unknown default:
@@ -48,6 +42,16 @@ public class CameraHandler: NSObject {
         }
     }
 
+    private func requestCameraAccess(){
+        AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
+            if granted {
+                self?.configureCameraSession()
+            } else {
+                self?.onError?(CameraError.unauthorizedAccess)
+            }
+        }
+    }
+    
     private func configureCameraSession() {
         captureSession = AVCaptureSession()
         guard let captureSession = captureSession else { return }

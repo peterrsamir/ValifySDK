@@ -18,7 +18,7 @@ public class CameraViewController: BaseViewController {
     // MARK: - init
     public init(viewModel: CameraViewModel) {
         self.viewModel = viewModel
-        super.init(nibName: "CameraViewController", bundle: getSDKBundle())
+        super.init(nibName: nil, bundle: nil)
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -63,10 +63,15 @@ public class CameraViewController: BaseViewController {
     /// Configure the preview layer
     public override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        
         DispatchQueue.main.async { [weak self] in
-            if let previewLayer = self?.viewModel.videoPreviewLayer {
-                previewLayer.frame = self?.view?.bounds ?? CGRect()
-                self?.view.layer.insertSublayer(previewLayer, at: 0)
+            guard let self = self else { return }
+            
+            if let previewLayer = self.viewModel.videoPreviewLayer {
+                previewLayer.frame = self.view.bounds
+                if previewLayer.superlayer == nil {
+                    self.view.layer.insertSublayer(previewLayer, at: 0)
+                }
             }
         }
     }

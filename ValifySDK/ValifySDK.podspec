@@ -1,5 +1,4 @@
 Pod::Spec.new do |spec|
-
   spec.name         = "ValifySDK"
   spec.version      = "1.0.1"
   spec.summary      = "We provide a face recognition feature 🚀"
@@ -14,6 +13,14 @@ Pod::Spec.new do |spec|
   
   # Source files relative to the repository root
   spec.source_files = "ValifySDK/**/*.{swift}"
+  
+  # Include XIB files in the pod
+  spec.resource_bundles = {
+    'ValifySDKResources' => ['ValifySDK/**/*.xib']
+  }
+  
+  # Alternatively, use spec.resources (use one or the other, not both)
+  # spec.resources = ['ValifySDK/**/*.xib']
   
   # Dependencies
   spec.dependency "GoogleMLKit/FaceDetection"

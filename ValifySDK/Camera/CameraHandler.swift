@@ -26,7 +26,7 @@ public class CameraHandler: NSObject {
 
     // MARK: - Camera Setup
     func setupCamera() {
-        checkCameraPermissions()
+        self.checkCameraPermissions()
     }
 
     private func checkCameraPermissions() {
@@ -54,17 +54,33 @@ public class CameraHandler: NSObject {
     
     private func configureCameraSession() {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            guard let self = self else {return }
+            guard let self = self else { return }
+            
             self.captureSession = AVCaptureSession()
-            guard let captureSession = captureSession else { return }
+            guard let captureSession = self.captureSession else { return }
             
             captureSession.beginConfiguration()
-            setupFrontCamera(captureSession: captureSession)
-            setupOutputPhoto(captureSession: captureSession)
-            setupVideoOutput(captureSession: captureSession)
+            self.setupFrontCamera(captureSession: captureSession)
+            self.setupOutputPhoto(captureSession: captureSession)
+            self.setupVideoOutput(captureSession: captureSession)
+            
+            // Check for supported color spaces and set if needed
+            if let frontCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) {
+               let activeFormat = frontCamera.activeFormat
+                let supportedColorSpaces = activeFormat.supportedColorSpaces
+                if supportedColorSpaces.contains(.sRGB) {
+                    do {
+                        try frontCamera.lockForConfiguration()
+                        frontCamera.activeColorSpace = .sRGB
+                        frontCamera.unlockForConfiguration()
+                    } catch {
+                        self.onError?(error)
+                    }
+                }
+            }
             
             DispatchQueue.main.async { [weak self] in
-                guard let self = self else {return }
+                guard let self = self else { return }
                 captureSession.commitConfiguration()
                 captureSession.startRunning()
             }
@@ -95,15 +111,11 @@ public class CameraHandler: NSObject {
             onError?(CameraError.captureFailed)
             return
         }
-        DispatchQueue.main.async {[weak self] in
-            guard let self = self else {return }
             if captureSession.canAddOutput(photoOutput) {
                 captureSession.addOutput(photoOutput)
             }
             videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
             videoPreviewLayer?.videoGravity = .resizeAspectFill
-        }
-        
     }
 
     private func setupVideoOutput(captureSession: AVCaptureSession) {

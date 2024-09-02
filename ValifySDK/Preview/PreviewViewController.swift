@@ -17,7 +17,7 @@ class PreviewViewController: BaseViewController {
     // MARK: - Initializer
     init(image: UIImage) {
         self.selectedImage = image
-        super.init(nibName: nil, bundle: getSDKBundle())
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {

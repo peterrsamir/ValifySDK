@@ -18,7 +18,7 @@ public class CameraViewController: BaseViewController {
     // MARK: - init
     public init(viewModel: CameraViewModel) {
         self.viewModel = viewModel
-        super.init(nibName: "CameraViewController", bundle: Bundle(for: CameraViewController.self))
+        super.init(nibName: "CameraViewController", bundle: getSDKBundle())
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

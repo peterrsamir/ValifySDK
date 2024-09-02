@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "ValifySDK"
-  spec.version      = "1.0.0"
+  spec.version      = "1.0.1"
   spec.summary      = "We provide a face recognition feature 🚀"
   spec.homepage     = "https://github.com/peterrsamir/ValifySDK"
   spec.license      = "MIT"

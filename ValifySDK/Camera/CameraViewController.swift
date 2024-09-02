@@ -13,16 +13,17 @@ import MLKitFaceDetection
 public class CameraViewController: BaseViewController {
 
     @IBOutlet weak var captureButton: UIButton!
-    private let viewModel: CameraViewModel
+    private let viewModel = CameraViewModel(cameraHandler: CameraHandler())
     
     // MARK: - init
-    public init(viewModel: CameraViewModel) {
-        self.viewModel = viewModel
-        super.init(nibName: "CameraViewController", bundle: getSDKBundle())
-    }
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+//    public init(viewModel: CameraViewModel) {
+//        self.viewModel = viewModel
+////        super.init(nibName: "CameraViewController", bundle: getSDKBundle())
+//        super.init(nibName: nil, bundle: nil)
+//    }
+//    required init?(coder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
     public override func viewDidLoad() {
         super.viewDidLoad()
         setupViewModel()

@@ -53,15 +53,22 @@ public class CameraHandler: NSObject {
     }
     
     private func configureCameraSession() {
-        captureSession = AVCaptureSession()
-        guard let captureSession = captureSession else { return }
-        
-        captureSession.beginConfiguration()
-        setupFrontCamera(captureSession: captureSession)
-        setupOutputPhoto(captureSession: captureSession)
-        setupVideoOutput(captureSession: captureSession)
-        captureSession.commitConfiguration()
-        captureSession.startRunning()
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self = self else {return }
+            self.captureSession = AVCaptureSession()
+            guard let captureSession = captureSession else { return }
+            
+            captureSession.beginConfiguration()
+            setupFrontCamera(captureSession: captureSession)
+            setupOutputPhoto(captureSession: captureSession)
+            setupVideoOutput(captureSession: captureSession)
+            
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else {return }
+                captureSession.commitConfiguration()
+                captureSession.startRunning()
+            }
+        }
     }
 
     private func setupFrontCamera(captureSession: AVCaptureSession) {
@@ -88,11 +95,15 @@ public class CameraHandler: NSObject {
             onError?(CameraError.captureFailed)
             return
         }
-        if captureSession.canAddOutput(photoOutput) {
-            captureSession.addOutput(photoOutput)
+        DispatchQueue.main.async {[weak self] in
+            guard let self = self else {return }
+            if captureSession.canAddOutput(photoOutput) {
+                captureSession.addOutput(photoOutput)
+            }
+            videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+            videoPreviewLayer?.videoGravity = .resizeAspectFill
         }
-        videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        videoPreviewLayer?.videoGravity = .resizeAspectFill
+        
     }
 
     private func setupVideoOutput(captureSession: AVCaptureSession) {

@@ -8,7 +8,7 @@ target 'ValifySDK' do
   # Pods for ValifySDK
 use_frameworks! :linkage => :static
 
-#pod 'GoogleMLKit/FaceDetection', '3.2.0'
+pod 'GoogleMLKit/FaceDetection', '3.2.0'
 
 
 #  target 'ValifySDKTests' do

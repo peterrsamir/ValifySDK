@@ -10,6 +10,8 @@
 		6804739D2C831DFC0085057C /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6804739C2C831DFC0085057C /* UIView+Extension.swift */; };
 		682A03352C80AC1300044B73 /* ValifySDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 682A03292C80AC1300044B73 /* ValifySDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		682A035D2C80AD8C00044B73 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 682A035C2C80AD8C00044B73 /* Home.swift */; };
+		683C00F72C85C8D20087E99C /* Pods_ValifySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CB029A153D3E2818140F5A4 /* Pods_ValifySDK.framework */; };
+		683C00F82C85C8D20087E99C /* Pods_ValifySDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9CB029A153D3E2818140F5A4 /* Pods_ValifySDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		687522DD2C8306FC005DEA65 /* SDKDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687522DC2C8306FC005DEA65 /* SDKDelegate.swift */; };
 		68971D8C2C80B49400ABE622 /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68971D8B2C80B49400ABE622 /* CameraViewController.xib */; };
 		68971D8D2C80B49400ABE622 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68971D8A2C80B49400ABE622 /* CameraViewController.swift */; };
@@ -20,8 +22,21 @@
 		68BE1C572C81FB0C00810851 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BE1C542C81FB0C00810851 /* PreviewViewController.swift */; };
 		68BE1C5A2C81FB5C00810851 /* PreviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BE1C592C81FB5C00810851 /* PreviewViewModel.swift */; };
 		68BE1C5C2C82158E00810851 /* CameraHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BE1C5B2C82158E00810851 /* CameraHandler.swift */; };
-		EEBC7250D97B671129651C1F /* Pods_ValifySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CB029A153D3E2818140F5A4 /* Pods_ValifySDK.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		683C00F92C85C8D20087E99C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				683C00F82C85C8D20087E99C /* Pods_ValifySDK.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		29E66D061B9EC98052A0B70F /* Pods-ValifySDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ValifySDK.release.xcconfig"; path = "Target Support Files/Pods-ValifySDK/Pods-ValifySDK.release.xcconfig"; sourceTree = "<group>"; };
@@ -55,7 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EEBC7250D97B671129651C1F /* Pods_ValifySDK.framework in Frameworks */,
+				683C00F72C85C8D20087E99C /* Pods_ValifySDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,6 +210,8 @@
 				682A03222C80AC1300044B73 /* Sources */,
 				682A03232C80AC1300044B73 /* Frameworks */,
 				682A03242C80AC1300044B73 /* Resources */,
+				722840BA40D582AF65E23AA6 /* [CP] Copy Pods Resources */,
+				683C00F92C85C8D20087E99C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -252,6 +269,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		722840BA40D582AF65E23AA6 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ValifySDK/Pods-ValifySDK-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ValifySDK/Pods-ValifySDK-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ValifySDK/Pods-ValifySDK-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		E7BFB2E343A24B5B63340B63 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

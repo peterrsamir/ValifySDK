@@ -6,8 +6,7 @@
 //
 
 import AVFoundation
-import MLKitVision
-import MLKitFaceDetection
+import UIKit
 
 final class CameraHandler: NSObject {
     // MARK: - Properties
@@ -15,7 +14,7 @@ final class CameraHandler: NSObject {
     private let sessionQueue = DispatchQueue(label: "cameraSessionQueue")
     private var photoOutput = AVCapturePhotoOutput()
     private var videoOutput = AVCaptureVideoDataOutput()
-    private var faceDetector: FaceDetector!
+    private let faceDetectionHandler: FaceDetectionProtocol
     private(set) var isFaceDetected: Bool = false
 
     // Callbacks
@@ -24,10 +23,10 @@ final class CameraHandler: NSObject {
     var onPhotoCaptured: ((UIImage) -> Void)?
 
     // MARK: - Initialization
-    override init() {
+    init(faceDetectionHandler: FaceDetectionProtocol) {
+        self.faceDetectionHandler = faceDetectionHandler
         super.init()
         configureSession()
-        configureFaceDetection()
     }
  
     // MARK: - Session Configuration
@@ -37,7 +36,7 @@ final class CameraHandler: NSObject {
             self.session.beginConfiguration()
 
             guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else {
-                onError?(CameraError.cameraUnavailable)
+                self.onError?(CameraError.cameraUnavailable)
                 return
             }
             // Add video input
@@ -47,7 +46,7 @@ final class CameraHandler: NSObject {
                     self.session.addInput(videoDeviceInput)
                 }
             } catch {
-                onError?(CameraError.CouldnotAddInput)
+                self.onError?(CameraError.CouldnotAddInput)
                 return
             }
 
@@ -56,7 +55,7 @@ final class CameraHandler: NSObject {
                 self.session.addOutput(self.photoOutput)
                 self.photoOutput.isHighResolutionCaptureEnabled = true
             } else {
-                onError?(CameraError.CouldnotAddOutput)
+                self.onError?(CameraError.CouldnotAddOutput)
                 return
             }
 
@@ -69,16 +68,6 @@ final class CameraHandler: NSObject {
 
             self.session.commitConfiguration()
         }
-    }
-
-    // MARK: - Face Detection Configuration
-    private func configureFaceDetection() {
-        let options = FaceDetectorOptions()
-        options.performanceMode = .accurate
-        options.landmarkMode = .all
-        options.classificationMode = .all
-
-        faceDetector = FaceDetector.faceDetector(options: options)
     }
 
     // MARK: - Camera Controls
@@ -108,21 +97,19 @@ final class CameraHandler: NSObject {
     }
 }
 
-
 // MARK: - AVCapturePhotoCaptureDelegate
 extension CameraHandler: AVCapturePhotoCaptureDelegate {
     
-    /// Flips selected uiimage to make photo appears natural
     func fixImageOrientation(image: UIImage) -> UIImage {
-            UIGraphicsBeginImageContextWithOptions(image.size, false, image.scale)
-            let context = UIGraphicsGetCurrentContext()
-            context?.translateBy(x: image.size.width, y: 0)
-            context?.scaleBy(x: -1.0, y: 1.0)
-            image.draw(in: CGRect(origin: .zero, size: image.size))
-            let flippedImage = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            return flippedImage ?? image
-        }
+        UIGraphicsBeginImageContextWithOptions(image.size, false, image.scale)
+        let context = UIGraphicsGetCurrentContext()
+        context?.translateBy(x: image.size.width, y: 0)
+        context?.scaleBy(x: -1.0, y: 1.0)
+        image.draw(in: CGRect(origin: .zero, size: image.size))
+        let flippedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return flippedImage ?? image
+    }
     
     public func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         if let error = error {
@@ -141,44 +128,13 @@ extension CameraHandler: AVCapturePhotoCaptureDelegate {
 // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
 extension CameraHandler: AVCaptureVideoDataOutputSampleBufferDelegate {
     public func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        guard CMSampleBufferGetImageBuffer(sampleBuffer) != nil else {
-            return
-        }
-
-        let visionImage = VisionImage(buffer: sampleBuffer)
-        visionImage.orientation = .right
-
-        faceDetector.process(visionImage) {[weak self] faces, error in
-            guard let self = self else {return}
+        faceDetectionHandler.detectFaces(in: sampleBuffer) { [weak self] isDetected, error in
             if let error = error {
-                self.isFaceDetected = false
-                self.onFaceDetectionError?(error)
+                self?.isFaceDetected = false
+                self?.onFaceDetectionError?(error)
                 return
             }
-            guard let faces = faces, !faces.isEmpty else {
-                print("No faces detected")
-                self.isFaceDetected = false
-                return
-            }
-            // Face detected
-            var allLandmarksVisible = false
-            for face in faces {
-                // Check if both eyes, the mouth, and the nose are detected
-                if face.landmark(ofType: .leftEye) != nil &&
-                    face.landmark(ofType: .rightEye) != nil &&
-                    face.landmark(ofType: .noseBase) != nil &&
-                    face.landmark(ofType: .mouthLeft) != nil &&
-                    face.landmark(ofType: .mouthBottom) != nil &&
-                    face.landmark(ofType: .mouthRight) != nil {
-                    print("All required facial landmarks detected!")
-                    allLandmarksVisible = true
-                    break /// Exit loop if one face has all required landmarks
-                } else {
-                    onFaceDetectionError?(CameraError.NoFaceDetected)
-                }
-            }
-            // Update isFaceDetected status based on landmark visibility
-            self.isFaceDetected = allLandmarksVisible
+            self?.isFaceDetected = isDetected
         }
     }
 }

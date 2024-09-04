@@ -8,6 +8,10 @@
 import Foundation
 import UIKit
 
+public enum FaceDetectionType {
+case Vision
+case MLKit
+}
 /// used to launch the SDK
 public class ValifySDKProxyLaunch {
     
@@ -19,11 +23,18 @@ public class ValifySDKProxyLaunch {
     
     /// Check if the Camera Permission enable
     /// - Returns: CameraViewController if permission enabled
-    public func launchSDK() -> UIViewController? {
+    public func launchSDK(type: FaceDetectionType) -> UIViewController? {
         var vc: UIViewController?
         permissionManager.checkCameraPermissions { granted in
             if granted {
-                let cameraHandler = CameraHandler()
+                var faceDetectionHandler: FaceDetectionProtocol
+                switch type {
+                case .Vision:
+                    faceDetectionHandler = VisionFaceDetection()
+                case .MLKit:
+                    faceDetectionHandler = MLKitFaceDetection()
+                }
+                let cameraHandler = CameraHandler(faceDetectionHandler: faceDetectionHandler)
                 let cameraViewModel = CameraViewModel(cameraHandler: cameraHandler)
                 let cameraViewController = CameraViewController(viewModel: cameraViewModel)
                 vc = cameraViewController

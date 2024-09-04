@@ -5,13 +5,14 @@
 //  Created by Peter Samir on 30/08/2024.
 //
 
-import UIKit
 import AVFoundation
+import UIKit
 
-public class CameraViewModel {
-    private let cameraHandler: CameraHandler
-    
-    // Callbacks
+class CameraViewModel: NSObject {
+    // MARK: - Properties
+    private(set) var cameraHandler: CameraHandler
+
+    // Callback closures for UI updates
     var onError: ((Error) -> Void)? {
         didSet {
             cameraHandler.onError = onError
@@ -28,21 +29,18 @@ public class CameraViewModel {
         }
     }
 
-    var videoPreviewLayer: AVCaptureVideoPreviewLayer? {
-        return cameraHandler.videoPreviewLayer
-    }
-
-    public init(cameraHandler: CameraHandler) {
+    // MARK: - Initialization
+    init(cameraHandler: CameraHandler) {
         self.cameraHandler = cameraHandler
-        cameraHandler.onError = onError
-        cameraHandler.onPhotoCaptured = onPhotoCaptured
-        cameraHandler.onFaceDetectionError = onFaceDetectionError
-        cameraHandler.setupFaceDetection()
-        setupCamera()
+        super.init()
     }
 
-    func setupCamera() {
-        cameraHandler.setupCamera()
+    func startCamera() {
+        cameraHandler.startSession()
+    }
+
+    func stopCamera() {
+        cameraHandler.stopSession()
     }
 
     func capturePhoto() {

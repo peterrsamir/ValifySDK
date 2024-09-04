@@ -13,8 +13,3 @@ public protocol SDKDelegate: AnyObject {
     /// - Parameter imageView: the approved image
     func sdkDidFinish(with imageView: UIImageView)
 }
-
-func getSDKBundle() -> Bundle {
-    let frameworkBundleID  = "com.valify.sdk";
-    return Bundle(identifier: frameworkBundleID)!
-}

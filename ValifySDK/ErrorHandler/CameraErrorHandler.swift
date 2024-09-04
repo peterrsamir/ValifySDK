@@ -12,6 +12,8 @@ enum CameraError: LocalizedError {
     case captureFailed
     case unauthorizedAccess
     case NoFaceDetected
+    case CouldnotAddInput
+    case CouldnotAddOutput
     
     var errorDescription: String? {
         switch self {
@@ -23,6 +25,10 @@ enum CameraError: LocalizedError {
             return "Camera access is denied. Please enable access in settings."
         case .NoFaceDetected:
             return "Please bring your face in front of the Camera"
+        case .CouldnotAddInput:
+            return "Could not add photo intput to the session"
+        case .CouldnotAddOutput:
+            return "Could not add photo output to the session"
         }
     }
 }

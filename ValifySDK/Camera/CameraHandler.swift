@@ -6,183 +6,162 @@
 //
 
 import AVFoundation
-import UIKit
-import MLKitFaceDetection
 import MLKitVision
+import MLKitFaceDetection
 
-public class CameraHandler: NSObject {
+final class CameraHandler: NSObject {
     // MARK: - Properties
-    private var captureSession: AVCaptureSession?
-    private var photoOutput: AVCapturePhotoOutput?
-    private var videoDataOutput: AVCaptureVideoDataOutput?
-    var videoPreviewLayer: AVCaptureVideoPreviewLayer?
-    private var faceDetector: FaceDetector?
-    private var isFaceDetected: Bool = false
+    private(set) var session = AVCaptureSession()
+    private let sessionQueue = DispatchQueue(label: "cameraSessionQueue")
+    private var photoOutput = AVCapturePhotoOutput()
+    private var videoOutput = AVCaptureVideoDataOutput()
+    private var faceDetector: FaceDetector!
+    private(set) var isFaceDetected: Bool = false
 
     // Callbacks
     var onError: ((Error) -> Void)?
     var onFaceDetectionError: ((Error) -> Void)?
     var onPhotoCaptured: ((UIImage) -> Void)?
 
-    // MARK: - Camera Setup
-    func setupCamera() {
-        self.checkCameraPermissions()
+    // MARK: - Initialization
+    override init() {
+        super.init()
+        configureSession()
+        configureFaceDetection()
     }
-
-    private func checkCameraPermissions() {
-        switch AVCaptureDevice.authorizationStatus(for: .video) {
-        case .authorized:
-            configureCameraSession()
-        case .notDetermined:
-            requestCameraAccess()
-        case .denied, .restricted:
-            onError?(CameraError.unauthorizedAccess)
-        @unknown default:
-            onError?(CameraError.cameraUnavailable)
-        }
-    }
-
-    private func requestCameraAccess(){
-        AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
-            if granted {
-                self?.configureCameraSession()
-            } else {
-                self?.onError?(CameraError.unauthorizedAccess)
-            }
-        }
-    }
-    
-    private func configureCameraSession() {
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+ 
+    // MARK: - Session Configuration
+    private func configureSession() {
+        sessionQueue.async { [weak self] in
             guard let self = self else { return }
-            
-            self.captureSession = AVCaptureSession()
-            guard let captureSession = self.captureSession else { return }
-            
-            captureSession.beginConfiguration()
-            self.setupFrontCamera(captureSession: captureSession)
-            self.setupOutputPhoto(captureSession: captureSession)
-            self.setupVideoOutput(captureSession: captureSession)
-            
-            // Check for supported color spaces and set if needed
-            if let frontCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) {
-               let activeFormat = frontCamera.activeFormat
-                let supportedColorSpaces = activeFormat.supportedColorSpaces
-                if supportedColorSpaces.contains(.sRGB) {
-                    do {
-                        try frontCamera.lockForConfiguration()
-                        frontCamera.activeColorSpace = .sRGB
-                        frontCamera.unlockForConfiguration()
-                    } catch {
-                        self.onError?(error)
-                    }
-                }
-            }
-            
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                captureSession.commitConfiguration()
-                captureSession.startRunning()
-            }
-        }
-    }
+            self.session.beginConfiguration()
 
-    private func setupFrontCamera(captureSession: AVCaptureSession) {
-        guard let frontCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else {
-            onError?(CameraError.cameraUnavailable)
-            return
-        }
-
-        do {
-            let input = try AVCaptureDeviceInput(device: frontCamera)
-            if captureSession.canAddInput(input) {
-                captureSession.addInput(input)
-            } else {
+            guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else {
                 onError?(CameraError.cameraUnavailable)
+                return
             }
-        } catch {
-            onError?(error)
-        }
-    }
-
-    private func setupOutputPhoto(captureSession: AVCaptureSession) {
-        photoOutput = AVCapturePhotoOutput()
-        guard let photoOutput = photoOutput else {
-            onError?(CameraError.captureFailed)
-            return
-        }
-            if captureSession.canAddOutput(photoOutput) {
-                captureSession.addOutput(photoOutput)
+            // Add video input
+            do {
+                let videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice)
+                if self.session.canAddInput(videoDeviceInput) {
+                    self.session.addInput(videoDeviceInput)
+                }
+            } catch {
+                onError?(CameraError.CouldnotAddInput)
+                return
             }
-            videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-            videoPreviewLayer?.videoGravity = .resizeAspectFill
-    }
 
-    private func setupVideoOutput(captureSession: AVCaptureSession) {
-        videoDataOutput = AVCaptureVideoDataOutput()
-        guard let videoDataOutput = videoDataOutput else { return }
+            // Add photo output
+            if self.session.canAddOutput(self.photoOutput) {
+                self.session.addOutput(self.photoOutput)
+                self.photoOutput.isHighResolutionCaptureEnabled = true
+            } else {
+                onError?(CameraError.CouldnotAddOutput)
+                return
+            }
 
-        videoDataOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "videoQueue"))
-        if captureSession.canAddOutput(videoDataOutput) {
-            captureSession.addOutput(videoDataOutput)
-        } else {
-            onError?(CameraError.cameraUnavailable)
+            // Add video data output for face detection
+            self.videoOutput.setSampleBufferDelegate(self, queue: self.sessionQueue)
+            if self.session.canAddOutput(self.videoOutput) {
+                self.session.addOutput(self.videoOutput)
+                self.videoOutput.alwaysDiscardsLateVideoFrames = true
+            }
+
+            self.session.commitConfiguration()
         }
     }
 
-    func capturePhoto() {
+    // MARK: - Face Detection Configuration
+    private func configureFaceDetection() {
+        let options = FaceDetectorOptions()
+        options.performanceMode = .accurate
+        options.landmarkMode = .all
+        options.classificationMode = .all
+
+        faceDetector = FaceDetector.faceDetector(options: options)
+    }
+
+    // MARK: - Camera Controls
+    public func startSession() {
+        sessionQueue.async {
+            if !self.session.isRunning {
+                self.session.startRunning()
+            }
+        }
+    }
+
+    public func stopSession() {
+        sessionQueue.async {
+            if self.session.isRunning {
+                self.session.stopRunning()
+            }
+        }
+    }
+
+    public func capturePhoto() {
         guard isFaceDetected else {
             onFaceDetectionError?(CameraError.NoFaceDetected)
             return
         }
         let settings = AVCapturePhotoSettings()
-        photoOutput?.capturePhoto(with: settings, delegate: self)
+        photoOutput.capturePhoto(with: settings, delegate: self)
     }
+}
 
-    func stopSession() {
-        captureSession?.stopRunning()
-    }
 
+// MARK: - AVCapturePhotoCaptureDelegate
+extension CameraHandler: AVCapturePhotoCaptureDelegate {
+    
+    /// Flips selected uiimage to make photo appears natural
     func fixImageOrientation(image: UIImage) -> UIImage {
-        UIGraphicsBeginImageContextWithOptions(image.size, false, image.scale)
-        let context = UIGraphicsGetCurrentContext()
-        context?.translateBy(x: image.size.width, y: 0)
-        context?.scaleBy(x: -1.0, y: 1.0)
-        image.draw(in: CGRect(origin: .zero, size: image.size))
-        let flippedImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return flippedImage ?? image
-    }
-
-    func setupFaceDetection() {
-        let options = FaceDetectorOptions()
-        options.performanceMode = .fast
-        options.landmarkMode = .all
-        options.classificationMode = .none
-        faceDetector = FaceDetector.faceDetector(options: options)
+            UIGraphicsBeginImageContextWithOptions(image.size, false, image.scale)
+            let context = UIGraphicsGetCurrentContext()
+            context?.translateBy(x: image.size.width, y: 0)
+            context?.scaleBy(x: -1.0, y: 1.0)
+            image.draw(in: CGRect(origin: .zero, size: image.size))
+            let flippedImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            return flippedImage ?? image
+        }
+    
+    public func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        if let error = error {
+            onError?(error)
+            return
+        }
+        guard let imageData = photo.fileDataRepresentation(), let image = UIImage(data: imageData) else {
+            onError?(CameraError.captureFailed)
+            return
+        }
+        let correctedImage = fixImageOrientation(image: image)
+        onPhotoCaptured?(correctedImage)
     }
 }
 
 // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
 extension CameraHandler: AVCaptureVideoDataOutputSampleBufferDelegate {
     public func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        let visionImage = VisionImage(buffer: sampleBuffer)
-        visionImage.orientation = .right // Adjust based on your camera orientation
+        guard CMSampleBufferGetImageBuffer(sampleBuffer) != nil else {
+            return
+        }
 
-        faceDetector?.process(visionImage) { faces, error in
+        let visionImage = VisionImage(buffer: sampleBuffer)
+        visionImage.orientation = .right
+
+        faceDetector.process(visionImage) {[weak self] faces, error in
+            guard let self = self else {return}
             if let error = error {
-                print("Face detection error: \(error.localizedDescription)")
                 self.isFaceDetected = false
                 self.onFaceDetectionError?(error)
                 return
             }
-
             guard let faces = faces, !faces.isEmpty else {
                 print("No faces detected")
                 self.isFaceDetected = false
                 return
             }
-            var allLandmarksVisible = false // Track if required landmarks are visible
+            // Face detected
+            var allLandmarksVisible = false
             for face in faces {
                 // Check if both eyes, the mouth, and the nose are detected
                 if face.landmark(ofType: .leftEye) != nil &&
@@ -193,31 +172,13 @@ extension CameraHandler: AVCaptureVideoDataOutputSampleBufferDelegate {
                     face.landmark(ofType: .mouthRight) != nil {
                     print("All required facial landmarks detected!")
                     allLandmarksVisible = true
-                    break // Exit loop if one face has all required landmarks
+                    break /// Exit loop if one face has all required landmarks
                 } else {
-                    print("Required landmarks not fully detected.")
+                    onFaceDetectionError?(CameraError.NoFaceDetected)
                 }
             }
             // Update isFaceDetected status based on landmark visibility
             self.isFaceDetected = allLandmarksVisible
         }
-    }
-}
-
-// MARK: - AVCapturePhotoCaptureDelegate
-extension CameraHandler: AVCapturePhotoCaptureDelegate {
-    public func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-        if let error = error {
-            onError?(error)
-            return
-        }
-
-        guard let imageData = photo.fileDataRepresentation(), let image = UIImage(data: imageData) else {
-            onError?(CameraError.captureFailed)
-            return
-        }
-
-        let correctedImage = fixImageOrientation(image: image)
-        onPhotoCaptured?(correctedImage)
     }
 }
